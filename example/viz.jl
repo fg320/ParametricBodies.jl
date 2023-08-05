@@ -16,13 +16,13 @@ function body_omega_fig(sim,resolution=(1400,700))
     # Get first vorticity viz
     vort = sim.flow.σ[inside(sim.flow.σ)] |> Array; ovort = Observable(vort)
     get_omega!(vort,sim); notify(ovort)
-    heatmap!(ax,ovort,colorrange=(-20.,20.),colormap=:curl,interpolate=true)
+    GLMakie.heatmap!(ax,ovort,colorrange=(-20.,20.),colormap=:curl,interpolate=true)
 
     # Set up body viz
     bod = sim.flow.σ[inside(sim.flow.σ)] |> Array; obod = Observable(bod)
     get_body!(bod,sim); notify(obod)
     colormap = to_colormap([:grey30,(:grey,0.5)])
-    contourf!(ax,obod,levels=[-100,0,1];colormap)
+    display(GLMakie.contourf!(ax,obod,levels=[-100,0,1];colormap))
     fig,(vort,ovort,bod,obod)
 end
 function update!(viz,sim)
